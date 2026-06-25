@@ -1,10 +1,41 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Popup from "./components/Popup"
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
   // Destructuring
-  const [isPopupOpen, setIsPopupOpen] = useState(true)
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+
+  // 
+  const [products, setProducts] = useState([]);
+  // const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    console.log("Component Loaded");
+  }, []);
+
+  useEffect(() => {
+
+    const timer = setTimeout(() => {
+      fetch("https://fakestoreapi.com/products")
+      .then(res => res.json())
+      .then(data => {
+        setProducts(data);
+        // setLoading(false);
+      })
+      .catch((err) => {console.log(err);
+        // setLoading(false);
+      });
+    }, 2000);
+
+    return () => clearTimeout(timer);
+
+  }, []);
+
+  // if (loading) {
+  //   return <h2>Loading...</h2>
+  // }
+
   return (
     <>
      <div>
@@ -25,6 +56,15 @@ function App() {
       <button onClick={() => setIsPopupOpen(true)}>
         Open Popup
       </button>
+
+
+      <div>
+        {products.map(product =>(
+          <h3 Key={product.id}>
+            {product.title}
+          </h3>          
+        ))}
+      </div>
 
       <Popup isOpen={isPopupOpen} onClose={() => setIsPopupOpen(false)}>
         <h2>
