@@ -54,7 +54,8 @@ function Home() {
         <div className="container">
           <h2>What I Do</h2>
 
-          <div className="skills-grid">
+          <div className="skills-grid">  
+            {/* array methods  */}
             {skills.map((skill) => (
               <div className="skill-card" key={skill.title}>
                 <h3>{skill.title}</h3>
