@@ -1,42 +1,19 @@
-import { useEffect, useState } from "react"
-import { getStories } from "./API/stories";
-import StoryList from "./components/StoryList";
-import AddStory from "./components/AddStory";
-
-export default function App(){
-
-  const [stories, setStories] = useState([]);
-  const [loading, setLoading] = useState(true);
-  useEffect(()=>{
-
-    async function fetchStory(){
-      try {
-       const data = await getStories();
-       setStories(data);
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setLoading(false);
-      }
-      
-    }
-
-    fetchStory();
-    
-  }, []);
-
-  if(loading) return <div>Loading...</div>
+import { Route, Routes } from "react-router-dom";
+import Home from "./pages/Home";
+import AddPage from "./pages/Addpage";
+import Story from "./pages/story";
+import EditPage from "./pages/EditPage";
 
 
-  return(
-    <div>
-      <h1>Story Book</h1>
-      <p>Story Book is a platform for sharing stories</p>
+export default function App() {
 
-
-      <AddStory />
-
-      <StoryList stories={stories} />
-    </div>
+  return (
+    <Routes>
+      <Route default element={<Home />} />
+      <Route path="/" element={<Home />} />
+      <Route path="/add" element={<AddPage />} />
+      <Route path="/story/:id" element={<Story />} />
+      <Route path="/edit/:id" element={<EditPage />} />
+    </Routes>
   )
 }
